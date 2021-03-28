@@ -1,40 +1,133 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Flight Simulator</title>
-        <link rel = "stylesheet" type = "text/css" href = "styles.css" />
-        <script src = "scripts.js"></script>
-    </head>
-    <body>
-        <div style="text-align: center;">
-            <h1>Flight Simulator</h1>
-            <h2>Current Flight Status</h2>
-            <p id = "flightStatus">Space shuttle ready for takeoff</p>
-            <h2>Shuttle Trajectory</h2>
-        </div>
-        <div style="text-align: center; height: 400px; width: 100%;" >
-            <div style="text-align: center; display: inline-block;">
-                <h3>Fuel Levels</h3>
-                <p>Tank Full</p>
-                <h3>Astronaut Chat</h3>
-                <p>Houston, we are ready when you are!</p>
-            </div>
-            <div id = "shuttleBackground" style = "position: relative;">
-                <img src = "LaunchCode_rocketline_white.png" height = "75" width = "75" id = "rocket"/>
-            </div>
-            <div style = "text-align: center; display: inline-block;">
-                    <button>Up</button>
-                    <button>Down</button>
-                    <button>Right</button>
-                    <button>Left</button>
-                    <h3>Space Shuttle Height</h3>
-                    <p id="spaceShuttleHeight">0</p><p style = "display: inline-block;"> miles</p>
-            </div>
-        </div>
-        <div style="text-align: center;">
-            <button id = "takeoff">Take off</button>
-            <button id = "landing">Land</button>
-            <button id = "missionAbort">Abort Mission</button>
+
+<head>
+    <title>Flight Simulator</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="scripts.js"></script>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h1>Flight Simulator</h1>
+        <h2>Current Flight Status</h2>
+        <p id="flightStatus">Space shuttle ready for takeoff</p>
+        <h2>Shuttle Trajectory</h2>
     </div>
-    </body>
+    <div style="text-align: center; height: 400px; width: 100%;">
+        <div style="text-align: center; display: inline-block;">
+            <h3>Fuel Levels</h3>
+            <p>Tank Full</p>
+            <h3>Astronaut Chat</h3>
+            <p>Houston, we are ready when you are!</p>
+        </div>
+        <div id="shuttleBackground" style="position: relative;">
+            <img src="LaunchCode_rocketline_white.png" height="75" width="75" id="rocket" style="position: relative;" />
+        </div>
+        <div style="text-align: center; display: inline-block;">
+            <button id="up">Up</button>
+            <button id="down">Down</button>
+            <button id="right">Right</button>
+            <button id="left">Left</button>
+            <h3>Space Shuttle Height</h3>
+            <p id="spaceShuttleHeight">0</p>
+            <p style="display: inline-block;"> miles</p>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button id="takeoff">Take off</button>
+        <button id="landing">Land</button>
+        <button id="missionAbort">Abort Mission</button>
+    </div>
+
+    <script>
+        window.addEventListener('load', (event) => {
+            console.log('page is fully loaded');
+        })
+        let sideToSide = 0;
+        let upAndDown = 0;
+        let height = 0;
+
+        function takeOffConfirmation() {
+            let confirmed = window.confirm("Confirm that the shuttle is ready for takeoff.");
+            if (confirmed) {
+                document.getElementById("flightStatus").innerHTML = "Shuttle in flight.";
+                document.getElementById('shuttleBackground').style.backgroundColor = 'Blue';
+                document.getElementById("spaceShuttleHeight").innerHTML = 10000;
+            }
+        }
+
+        function landAlert() {
+            window.alert("The shuttle is landing. Landing gear engaged.");
+            document.getElementById('flightStatus').innerHTML = "The shuttle has landed.";
+            document.getElementById('shuttleBackground').style.backgroundColor = 'Green';
+            document.getElementById('spaceShuttleHeight').innerHTML = 0;
+            document.getElementById('rocket').style.position = 'relative';
+            document.getElementById('rocket').style.top = '0px';
+            document.getElementById('rocket').style.bottom = '0px';
+            document.getElementById('rocket').style.right = '0px';
+            document.getElementById('rocket').style.left = '0px';
+        }
+
+        function abort() {
+            let confirmAbort = window.confirm("Confirm that you want to abort the mission.");
+            if (confirmAbort) {
+                document.getElementById("flightStatus").innerHTML = "Mission aborted.";
+                document.getElementById('shuttleBackground').style.backgroundColor = 'Green';
+                document.getElementById('spaceShuttleHeight').innerHTML = 0;
+            }
+        }
+
+
+        function moveShipRight() {
+            sideToSide -= 10;
+            document.getElementById('rocket').style.right = sideToSide + 'px';
+        }
+
+        function moveShipLeft() {
+            sideToSide += 10;
+            document.getElementById('rocket').style.right = sideToSide + 'px';
+        }
+
+        function moveShipUp() {
+            upAndDown -= 10;
+            height += 10000;
+            document.getElementById('rocket').style.top = upAndDown + 'px';
+            document.getElementById('spaceShuttleHeight').innerHTML = height;
+        }
+
+        function moveShipDown() {
+            upAndDown += 10;
+            height -= 10000
+            document.getElementById('rocket').style.top = upAndDown + 'px';
+            document.getElementById('spaceShuttleHeight').innerHTML = height;
+        }
+
+
+
+
+
+        let takeoff_Button = document.getElementById('takeoff');
+        takeoff_Button.addEventListener('click', takeOffConfirmation);
+
+        let landing_Button = document.getElementById('landing');
+        landing_Button.addEventListener('click', landAlert);
+
+        let abort_Button = document.getElementById('missionAbort');
+        abort_Button.addEventListener('click', abort)
+
+        let up_button = document.getElementById('up');
+        up_button.addEventListener('click', moveShipUp);
+
+        let down_button = document.getElementById('down');
+        down_button.addEventListener('click', moveShipDown);
+
+        let left_button = document.getElementById('left');
+        left_button.addEventListener('click', moveShipLeft);
+
+        let right_button = document.getElementById('right');
+        right_button.addEventListener('click', moveShipRight);
+    </script>
+</body>
+
 </html>
